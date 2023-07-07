@@ -10,8 +10,8 @@ Gcc 11.2.0
 Linux 5.19
 
 Python 3.10.6
-- pytorch 2.0.1
-- torchvision 0.16.0
+- pytorch 2.1.0a0
+- torchvision 0.16.0a0
 ```
 
 ## Install dependencies
