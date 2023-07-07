@@ -11,7 +11,7 @@ Linux 5.19
 
 Python 3.10.6
 - pytorch 2.0.1
-- torchvision 0.14.1
+- torchvision 0.16.0
 ```
 
 ## Install dependencies
