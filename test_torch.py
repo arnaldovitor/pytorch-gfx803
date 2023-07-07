@@ -1,5 +1,8 @@
 import torch
+import torchvision
+import torchvision.io
 
+print("Torch--torchvision version",torch.__version__,"--",torchvision.__version__)
 print("Cuda available:", torch.cuda.is_available())
 print("Number of devices:", torch.cuda.device_count())
 print("Current device index:", torch.cuda.current_device())
