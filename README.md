@@ -17,7 +17,9 @@ Python 3.10.6
 ## Install dependencies
 
 ```bash
-apt install libopenmpi3 libstdc++-12-dev
+sudo apt install libopenmpi3 libstdc++-12-dev
+sudo apt install ninja-build
+sudo apt install cmake
 ```
 
 ## Install ROCm
