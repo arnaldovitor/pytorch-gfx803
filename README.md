@@ -1,36 +1,34 @@
 # PyTorch ROCm gfx803
 
-build pytorch 2.x with ROCm support for stable-diffusion-webui
+build pytorch 2.1.2 with ROCm support for automatic stable-diffusion-webui
 
 ```
-Ubuntu 22.04.2 LTS
+Linux Mint 21.2
 Radeon RX 580 8GB
-RoCm 5.4.3
-Gcc 11.2.0
-Linux 5.19
+RoCm 5.5
 
 Python 3.10.6
-- pytorch 2.1.0a0
-- torchvision 0.16.0a0
+- pytorch 2.1.2
+- torchvision 0.16.2
 ```
 
 ## Install dependencies
 
 ```bash
-sudo apt install libopenmpi3 libstdc++-12-dev
-sudo apt install ninja-build
-sudo apt install cmake
+sudo apt autoremove rocm-core amdgpu-dkms
+sudo apt install libopenmpi3 libstdc++-12-dev libdnnl-dev ninja-build libopenblas-dev libpng-dev libjpeg-dev
 ```
 
 ## Install ROCm
 
 ```bash
+sudo -i
 sudo echo ROC_ENABLE_PRE_VEGA=1 >> /etc/environment
 sudo echo HSA_OVERRIDE_GFX_VERSION=8.0.3 >> /etc/environment
-# reboot
+# Reboot after this
 
-wget https://repo.radeon.com/amdgpu-install/22.40.3/ubuntu/focal/amdgpu-install_5.4.50403-1_all.deb
-sudo apt install ./amdgpu-install_5.4.50403-1_all.deb
+wget https://repo.radeon.com/amdgpu-install/5.5/ubuntu/jammy/amdgpu-install_5.5.50500-1_all.deb
+sudo apt install ./amdgpu-install_5.5.50500-1_all.deb
 sudo amdgpu-install -y --usecase=rocm,hiplibsdk,mlsdk
 
 sudo usermod -aG video $LOGNAME
@@ -43,34 +41,56 @@ clinfo
 
 ## Build
 
-You may need to install addional ependencies, and the build will take a long time.
+You may need to install addional dependencies, and the build will take a long time.
 
 **TL;DR:** use the prebuilt [binaries](https://github.com/tsl0922/pytorch-gfx803/releases) if you want to make your life easier.
 
-### Build pytorch
-
+#in home directory create directory pytorch2.1.2
+#Build Torch
 ```bash
-git clone --depth=1 https://github.com/pytorch/pytorch.git
+cd pytorch2.1.2
+git clone --recursive https://github.com/pytorch/pytorch.git -b v2.1.2
 cd pytorch
-export HIP_PLATFORM=amd
+pip install cmake mkl mkl-include
+pip install -r requirements.txt
+sudo ln -s /usr/lib/x86_64-linux-gnu/librt.so.1 /usr/lib/x86_64-linux-gnu/librt.so
 export PATH=/opt/rocm/bin:$PATH ROCM_PATH=/opt/rocm HIP_PATH=/opt/rocm/hip
 export PYTORCH_ROCM_ARCH=gfx803
-export PYTORCH_BUILD_VERSION=2.1.0a0 PYTORCH_BUILD_NUMBER=1	           # build_version please see the version.txt   
-python3.10 tools/amd_build/build_amd.py
-USE_ROCM=1 USE_NINJA=1 python3.10 setup.py bdist_wheel
-pip3 install dist/torch-2.1.0a0-cp310-cp310-linux_x86_64.whl	
+export PYTORCH_BUILD_VERSION=2.1.2 PYTORCH_BUILD_NUMBER=1
+export USE_CUDA=0 USE_ROCM=1 USE_NINJA=1
+python3 tools/amd_build/build_amd.py
+python3 setup.py bdist_wheel
 
 ```
 
 ### Build torchvision
 
 ```bash
-git clone --depth=1 https://github.com/pytorch/vision.git
+cd ..
+git clone https://github.com/pytorch/vision.git -b v0.16.2
 cd vision
-export BUILD_VERSION=0.16.0a0	                                        # build_version please see the version.txt
-FORCE_CUDA=1 ROCM_HOME=/opt/rocm/ python3.10 setup.py bdist_wheel
-pip3 install dist/torchvision-0.16.0a0-cp310-cp310-linux_x86_64.whl
+export BUILD_VERSION=0.16.2
+FORCE_CUDA=1 ROCM_HOME=/opt/rocm/ python3 setup.py bdist_wheel
 ```
+
+
+### install in Automatic SD WebUI
+
+```bash
+cd ..
+
+git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui
+cd stable-diffusion-webui
+python3 -m venv venv
+source venv/bin/activate
+python -m pip install --upgrade pip wheel
+pip uninstall torch torchvision
+pip3 install /home/*******/pytorch2.1.2/pytorch/dist/torch-2.1.2-cp310-cp310-linux_x86_64.whl
+pip3 install /home/*******/pytorch2.1.2/vision/dist/torchvision-0.16.2-cp310-cp310-linux_x86_64.whl
+pip list | grep 'torch'
+
+```
+******* is your home directory username
 
 ## Test
 
@@ -83,3 +103,7 @@ python3.10 test_torch.py
 
 - https://github.com/RadeonOpenCompute/ROCm/issues/1659
 - https://github.com/xuhuisheng/rocm-gfx803
+- https://github.com/xuhuisheng/rocm-gfx803/issues/27#issuecomment-1534048619
+- https://github.com/Tokoshie/pytorch-gfx803/releases/tag/v2.1.0a0
+- https://github.com/xuhuisheng/rocm-gfx803/issues/27#issuecomment-1892611849
+- https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki
