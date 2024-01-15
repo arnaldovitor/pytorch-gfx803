@@ -43,8 +43,6 @@ clinfo
 
 You may need to install addional dependencies, and the build will take a long time.
 
-**TL;DR:** use the prebuilt [binaries](https://github.com/tsl0922/pytorch-gfx803/releases) if you want to make your life easier.
-
 #in home directory create directory pytorch2.1.2
 #Build Torch
 ```bash
