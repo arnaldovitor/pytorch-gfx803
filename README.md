@@ -49,7 +49,7 @@ clinfo
 
 ## Build
 
-You may need to install addional dependencies, and the build will take a long time.
+You may need to install addional dependencies, and the build will take a long time. On a system with Ryzen 3700X building with all available threads consumes ~30 GB of RAM in peak.
 
 #in home directory create directory pytorch2.1.2
 #Build Torch
