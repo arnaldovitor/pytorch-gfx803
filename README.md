@@ -27,7 +27,7 @@ sudo echo ROC_ENABLE_PRE_VEGA=1 >> /etc/environment
 sudo echo HSA_OVERRIDE_GFX_VERSION=8.0.3 >> /etc/environment
 # Reboot after this
 
-wget https://repo.radeon.com/amdgpu-install/5.5/ubuntu/jammy/amdgpu-install_5.5.50500-1_all.deb
+wget "https://repo.radeon.com/amdgpu-install/5.5/ubuntu/jammy/amdgpu-install_5.5.50500-1_all.deb"
 sudo apt install ./amdgpu-install_5.5.50500-1_all.deb
 sudo amdgpu-install -y --usecase=rocm,hiplibsdk,mlsdk
 
@@ -47,7 +47,7 @@ You may need to install addional dependencies, and the build will take a long ti
 #Build Torch
 ```bash
 cd pytorch2.1.2
-git clone --recursive https://github.com/pytorch/pytorch.git -b v2.1.2
+git clone --recursive "https://github.com/pytorch/pytorch.git" -b v2.1.2
 cd pytorch
 pip install cmake mkl mkl-include
 pip install -r requirements.txt
@@ -65,7 +65,7 @@ python3 setup.py bdist_wheel
 
 ```bash
 cd ..
-git clone https://github.com/pytorch/vision.git -b v0.16.2
+git clone "https://github.com/pytorch/vision.git" -b v0.16.2
 cd vision
 export BUILD_VERSION=0.16.2
 FORCE_CUDA=1 ROCM_HOME=/opt/rocm/ python3 setup.py bdist_wheel
@@ -77,7 +77,7 @@ FORCE_CUDA=1 ROCM_HOME=/opt/rocm/ python3 setup.py bdist_wheel
 ```bash
 cd ..
 
-git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui
+git clone "https://github.com/AUTOMATIC1111/stable-diffusion-webui"
 cd stable-diffusion-webui
 python3 -m venv venv
 source venv/bin/activate
