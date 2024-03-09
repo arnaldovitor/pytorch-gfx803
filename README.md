@@ -111,6 +111,12 @@ and:
 
 On RX 480 ` --precision full --no-half` isn't necessary. Using `--medvram` will work but will leave almost no free VRAM for the OS, resulting in insane freezes. On RX 480 `--lowvram` works flawlessly.
 
+## Known issues
+One known issue is HIP occasionally reporting **131005.57 GiB** of free VRAM:
+> `torch.cuda.OutOfMemoryError: HIP out of memory. Tried to allocate 16.00 GiB. GPU 0 has a total capacty of 8.00 GiB of which 131005.57 GiB is free. Of the allocated memory 4.31 GiB is allocated by PyTorch, and 109.60 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_HIP_ALLOC_CONF`
+
+This value could also be seen in Web UI, in the "Generation" tab in the bottom right corner. This issue seems to have been fixed in kernel 6.2.x+ but ROCm 5.5 doesn't support this kernel version. In my case rebooting the PC helps get rid of this problem.
+
 ## Reference
 
 - https://github.com/RadeonOpenCompute/ROCm/issues/1659
