@@ -4,7 +4,7 @@ build pytorch 2.1.2 with ROCm support for automatic stable-diffusion-webui
 
 ```
 Linux Mint 21.2
-Radeon RX 580 8GB
+Radeon RX 480/580 8GB
 RoCm 5.5
 
 Python 3.10.6
