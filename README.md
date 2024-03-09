@@ -22,9 +22,7 @@ sudo apt install libopenmpi3 libstdc++-12-dev libdnnl-dev ninja-build libopenbla
 ## Install ROCm
 
 ```bash
-sudo -i
-sudo echo ROC_ENABLE_PRE_VEGA=1 >> /etc/environment
-sudo echo HSA_OVERRIDE_GFX_VERSION=8.0.3 >> /etc/environment
+echo -e "ROC_ENABLE_PRE_VEGA=1\nHSA_OVERRIDE_GFX_VERSION=8.0.3" | sudo tee -a /etc/environment
 # Reboot after this
 
 wget "https://repo.radeon.com/amdgpu-install/5.5/ubuntu/jammy/amdgpu-install_5.5.50500-1_all.deb"
