@@ -34,6 +34,7 @@ sudo usermod -aG render $LOGNAME
 
 # verify
 rocminfo
+rocm-smi
 clinfo
 ```
 
