@@ -102,6 +102,15 @@ pip list | grep 'torch'
 python3.10 test_torch.py
 ```
 
+## webui.sh launch parameters
+The AUTOMATIC11111 wiki [says](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Install-and-Run-on-AMD-GPUs):
+> *For many AMD GPUs, you must add --precision full --no-half or --upcast-sampling arguments to avoid NaN errors or crashing.
+
+and:
+> `# It's possible that you don't need "--precision full", dropping "--no-half" however crashes my drivers`
+
+On RX 480 ` --precision full --no-half` isn't necessary. Using `--medvram` will work but will leave almost no free VRAM for the OS, resulting in insane freezes. On RX 480 `--lowvram` works flawlessly.
+
 ## Reference
 
 - https://github.com/RadeonOpenCompute/ROCm/issues/1659
